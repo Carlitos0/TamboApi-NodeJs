@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended: true}));
 //Routes
 app.use("/categoria", require("./routes/categorias.routes"));
 app.use("/producto", require("./routes/producto.routes"));
-
+app.use("/proveedor", require("./routes/proveedor.routes"));
 
 //
 app.use("/public", express.static(`${__dirname}/storage/imgs`));
