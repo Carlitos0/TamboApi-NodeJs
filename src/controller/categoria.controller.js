@@ -1,5 +1,4 @@
 const sql = require("mssql");
-const { Transaction } = require("mssql/lib/base");
 
 const categoriaCtr = {};
 
