@@ -2,16 +2,18 @@ const { route } = require("./producto.routes")
 
 const router = require("express").Router()
 
-const { getProveedores } = require("./../controller/proveedor.controller")
+const { getProveedores, proveedorByName, proveedorById, addProveedor, deleteProveedor, updateProveedor } = require("./../controller/proveedor.controller")
 
 router.get("/", getProveedores)
 
-router.get("/:idProveedor")
+router.get("/:idProveedor", proveedorById)
 
-router.post("/addProveedor")
+router.get("/proveedorByName/:proveedorName", proveedorByName)
 
-router.delete("/deleteProveedor/:idProveedor")
+router.post("/addProveedor", addProveedor)
 
-router.patch("/updateProveedor/:idProveedor")
+router.delete("/deleteProveedor/:idProveedor", deleteProveedor)
+
+router.patch("/updateProveedor/:idProveedor", updateProveedor)
 
 module.exports = router
