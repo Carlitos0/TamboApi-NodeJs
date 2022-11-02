@@ -1,10 +1,9 @@
 const multer = require("multer");
 
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
     destination: function (req, file, cb) {
-        cb(null, './src/storage/imgs');
-        //podria guardarse de manera local tambien
-        //./src/storage/imgs
+        cb(null, null);
+        //'./src/storage/imgs'
     },
     filename: function (req, file, cb) {
         cb(null, `${file.fieldname}-${Date.now()}.jpg`);

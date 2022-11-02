@@ -1,4 +1,5 @@
 const sql = require("mssql");
+const { queries } = require("../helpers/functions");
 
 const categoriaCtr = {};
 
@@ -15,7 +16,7 @@ categoriaCtr.allCategorias = (req,res) => {
 categoriaCtr.categoriaById =  (req, res) => {
     const { idCategoria } = req.params;
     const request = new sql.Request();
-    request.query(`SELECT * FROM CATEGORIAS WHERE IdCategoria = ${idCategoria}`, async (err,result) => {
+    request.query(`${queries[0].categoriaById} = ${idCategoria}`, (err,result) => {
         if(err) res.json(err);
         res.status(200).json(result.recordset[0]);
     });
@@ -26,7 +27,7 @@ categoriaCtr.addCategoria = (req ,res) => {
     const request = new sql.Request();
     request
     .input("CategoriaName",sql.VarChar,CategoriaName)
-    .query(`INSERT INTO CATEGORIAS (CategoriaName) VALUES(@CategoriaName)`)
+    .query(queries[0].addCategoria)
         .then(rs => {
             res.status(200).json({ "message": 'Rows Affected '+ rs.rowsAffected[0] });
         })
@@ -34,6 +35,8 @@ categoriaCtr.addCategoria = (req ,res) => {
 
 }
 
+
+// WE'LL POBRABLY CHANGE THIS METHOD
 categoriaCtr.deleteCategoria = (req,res) => {
     const { idCategoria } = req.params;
     const request = new sql.Request();
@@ -55,7 +58,7 @@ categoriaCtr.updateCategoria = (req,res) => {
     request
     .input("IdCategoria", sql.Int, idCategoria)
     .input("CategoriaName", sql.VarChar, CategoriaName)
-    .query(`UPDATE CATEGORIAS SET CategoriaName = @CategoriaName WHERE IdCategoria = @IdCategoria`)
+    .query(queries[0].updateCategoria)
         .then(rs => {
             res.status(200).json(rs);
         })
@@ -68,7 +71,7 @@ categoriaCtr.searchByName = (req,res) => {
     const { data }  = req.params;
     const request = new sql.Request();
     request
-    .query(`SELECT * FROM CATEGORIAS WHERE CategoriaName LIKE '%${data}%'`)
+    .query(`${queries[0].categoriaByName} '%${data}%'`)
         .then(rs => {
             res.status(200).json(rs.recordsets[0]);
         })

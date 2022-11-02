@@ -12,6 +12,7 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({extended: true}));
 
 //Routes
+app.use(require("./routes/index.routes"));
 app.use("/categoria", require("./routes/categorias.routes"));
 app.use("/producto", require("./routes/producto.routes"));
 app.use("/proveedor", require("./routes/proveedor.routes"));
