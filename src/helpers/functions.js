@@ -29,7 +29,10 @@ functions.queries = [
         addFactura: "INSERT INTO FACTURAS VALUES (@Subtotal, @Igv, @TotalFactura, @FechaEmision)",
         updateFactura: "UPDATE FACTURAS SET Subtotal = @Subtotal, Igv = @Igv, TotalFactura = @TotalFactura, FechaEmision = @FechaEmision WHERE IdFactura = @IdFactura",
         detPedProById: "SELECT * FROM DT_PEDIDO_PRODUCTOS WHERE Id = @IdDetPedPro",
-        addDetPedPro: "INSERT INTO DT_PEDIDO_PRODUCTOS VALUES (@IdPedido, @IdProducto)"
+        addDetPedPro: "INSERT INTO DT_PEDIDO_PRODUCTOS VALUES (@IdPedido, @IdProducto)",
+        updateDtPedido: "UPDATE DT_PEDIDO_PRODUCTOS SET IdPedido = @IdPedido, IdProducto = @IdProducto WHERE Id = @IdDetPedPro",
+        //selectDtPedido: "SELECT D.Id, PE.IdPedido, P.NombreProducto FROM DT_PEDIDO_PRODUCTOS D INNER JOIN PRODUCTOS P ON D.IdProducto = P.IdProducto INNER JOIN PEDIDOS PE ON D.IdPedido = PE.IdPedido",
+        
     }
 ]
 

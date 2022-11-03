@@ -58,7 +58,7 @@ detPedPro.updateDetPedPro = async (req, res) => {
         .input("IdDetPedPro", sql.Int, idDetPedPro)
         .input("IdPedido", sql.Int, IdPedido)
         .input("IdProducto", sql.Int, IdProducto)
-        .query("UPDATE DT_PEDIDO_PRODUCTOS SET IdPedido = @IdPedido, IdProducto = @IdProducto WHERE Id = @IdDetPedPro")
+        .query(queries[0].updateDtPedido)
 
         res.status(200).json(rs)
     } catch (error) {
