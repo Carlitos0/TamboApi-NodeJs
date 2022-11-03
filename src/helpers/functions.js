@@ -22,6 +22,14 @@ functions.queries = [
         addCategoria: "INSERT INTO CATEGORIAS (CategoriaName) VALUES(@CategoriaName)",
         updateCategoria: "UPDATE CATEGORIAS SET CategoriaName = @CategoriaName WHERE IdCategoria = @IdCategoria",
         categoriaByName: "SELECT * FROM CATEGORIAS WHERE CategoriaName LIKE",
+        pedidoById: "SELECT * FROM PEDIDOS WHERE IdPedido = @idPedido",
+        addPedido: "INSERT INTO PEDIDOS VALUES (@CantidadPedido, @FechaPedido, @FechaEntrega, @IdProveedor, @IdFactura)",
+        updatePedido: "UPDATE PEDIDOS SET CantidadPedido = @CantidadPedido, FechaPedido = @FechaPedido, FechaEntrega = @FechaEntrega, IdProveedor = @IdProveedor, IdFactura = @IdFactura WHERE IdPedido = @IdPedido",
+        facturaById: "SELECT * FROM FACTURAS WHERE IdFactura = @IdFactura",
+        addFactura: "INSERT INTO FACTURAS VALUES (@Subtotal, @Igv, @TotalFactura, @FechaEmision)",
+        updateFactura: "UPDATE FACTURAS SET Subtotal = @Subtotal, Igv = @Igv, TotalFactura = @TotalFactura, FechaEmision = @FechaEmision WHERE IdFactura = @IdFactura",
+        detPedProById: "SELECT * FROM DT_PEDIDO_PRODUCTOS WHERE Id = @IdDetPedPro",
+        addDetPedPro: "INSERT INTO DT_PEDIDO_PRODUCTOS VALUES (@IdPedido, @IdProducto)"
     }
 ]
 
