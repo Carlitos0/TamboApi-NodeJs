@@ -11,19 +11,20 @@ const {
   productByName,
   updateProductImage,
 } = require("../controller/producto.controller");
+const { idProductoValidator, bodyProductoValidator, nameProductoValidator } = require("../validation/routes.test.");
 
 router.get("/", getProducts);
 
-router.get("/:IdProduct", productById);
+router.get("/:IdProduct", idProductoValidator ,productById);
 
-router.get("/productByName/:NameProduct", productByName);
+router.get("/productByName/:NameProduct", nameProductoValidator, productByName);
 
-router.post("/addProduct", upload.single("ProductImage"), addProduct);
+router.post("/addProduct", bodyProductoValidator ,upload.single("ProductImage"), addProduct);
 
-router.delete("/changeProductStatus/:IdProduct", changeProductStatus);
+router.delete("/changeProductStatus/:IdProduct", idProductoValidator ,changeProductStatus);
 
+router.put("/updateProduct/:IdProduct", idProductoValidator.concat(bodyProductoValidator) ,updateProduct);
 
-router.put("/updateProduct/:IdProduct", updateProduct);
 router.patch("/updateProductImage/:IdProduct",upload.single("ProductImage"), updateProductImage);
 
 module.exports = router;

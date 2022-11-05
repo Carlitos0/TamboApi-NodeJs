@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const { saveUrlImage, queries } = require("../helpers/functions");
 const { s3, getParams } = require("../libs/aws.config");
+const { validationResult } = require("express-validator");
 const productoCtr = {};
 
 productoCtr.getProducts = (req, res) => {
@@ -15,32 +16,43 @@ productoCtr.getProducts = (req, res) => {
 productoCtr.productById = async (req, res) => {
   const { IdProduct } = req.params;
   const request = new sql.Request();
+  const error = validationResult(req);
 
-  request
-    .input("idProduct", sql.Int, IdProduct)
-    .query(queries[0].productoById)
-    .then((response) => {
-      if (response.recordsets[0].length != 0)
-        res.status(200).json(response.recordsets[0]);
-      else res.status(200).json({ message: "No hay datos para mostrar" });
-    })
-    .catch((err) => {
-      res.status(500).json({ err });
-    });
+  if (!error.isEmpty()) {
+    res.status(500).json({ error: error.errors[0].msg });
+  } else {
+    request
+      .input("idProduct", sql.Int, IdProduct)
+      .query(queries[0].productoById)
+      .then((response) => {
+        if (response.recordsets[0].length != 0)
+          res.status(200).json(response.recordsets[0]);
+        else res.status(200).json({ message: "No hay datos para mostrar" });
+      })
+      .catch((err) => {
+        res.status(500).json({ err });
+      });
+  }
 };
 
 productoCtr.productByName = (req, res) => {
   const { NameProduct } = req.params;
   const request = new sql.Request();
-  request
-    .input("productName", sql.VarChar, NameProduct)
-    .query(queries[0].productoByName)
-    .then((response) => {
-      res.status(200).json(response.recordsets[0]);
-    })
-    .catch((err) => {
-      res.status(500).json({ err });
-    });
+  const error = validationResult(req);
+
+  if (!error.isEmpty()) {
+    res.status(500).json({ error: error.errors[0].msg });
+  } else {
+    request
+      .input("productName", sql.VarChar, NameProduct)
+      .query(queries[0].productoByName)
+      .then((response) => {
+        res.status(200).json(response.recordsets[0]);
+      })
+      .catch((err) => {
+        res.status(500).json({ err });
+      });
+  }
 };
 
 productoCtr.addProduct = (req, res) => {
@@ -48,42 +60,55 @@ productoCtr.addProduct = (req, res) => {
     req.body;
   //const url = (req.file) ? saveUrlImage(filename): null;
   const params = getParams(req);
-  s3.upload(params, (err, data) => {
-    if (err) return res.status(500).json({ err: err });
-    const url = data.Location;
-    const request = new sql.Request();
-    request
-      .input("NombreProducto", sql.VarChar, NombreProducto)
-      .input("Precio", sql.Money, Precio)
-      .input("Stock", sql.Int, Stock)
-      .input("Fecha_Entrada", sql.Date, Fecha_Entrada)
-      .input("Estado", sql.VarChar, Estado)
-      .input("IdCategoria", sql.Int, IdCategoria)
-      .input("ImgUrl", sql.VarChar, url)
-      .query(queries[0].addProduct)
-      .then((rs) => {
-        res
-          .status(200)
-          .json({ message: "Rows Affected " + rs.rowsAffected[0] });
-      })
-      .catch((err) => {
-        res.status(500).json({ err: err });
-      });
-  });
+
+  const error = validationResult(req);
+
+  if (!error.isEmpty()) {
+    res.status(500).json({ error: error.errors[0].msg });
+  } else {
+    s3.upload(params, (err, data) => {
+      if (err) return res.status(500).json({ err: err });
+      const url = data.Location;
+      const request = new sql.Request();
+      request
+        .input("NombreProducto", sql.VarChar, NombreProducto)
+        .input("Precio", sql.Money, Precio)
+        .input("Stock", sql.Int, Stock)
+        .input("Fecha_Entrada", sql.Date, Fecha_Entrada)
+        .input("Estado", sql.VarChar, Estado)
+        .input("IdCategoria", sql.Int, IdCategoria)
+        .input("ImgUrl", sql.VarChar, url)
+        .query(queries[0].addProduct)
+        .then((rs) => {
+          res
+            .status(200)
+            .json({ message: "Rows Affected " + rs.rowsAffected[0] });
+        })
+        .catch((err) => {
+          res.status(500).json({ err: err });
+        });
+    });
+  }
 };
 
 productoCtr.changeProductStatus = (req, res) => {
   const { IdProduct } = req.params;
   const request = new sql.Request();
-  request
-    .input("idProduct", sql.Int, IdProduct)
-    .query(queries[0].changeState)
-    .then((response) => {
-      res.status(200).json({ response });
-    })
-    .catch((err) => {
-      res.status(500).json({ err: err });
-    });
+  const error = validationResult(req);
+
+  if (!error.isEmpty()) {
+    res.status(500).json({ error: error.errors[0].msg });
+  } else {
+    request
+      .input("idProduct", sql.Int, IdProduct)
+      .query(queries[0].changeState)
+      .then((response) => {
+        res.status(200).json({ response });
+      })
+      .catch((err) => {
+        res.status(500).json({ err: err });
+      });
+  }
 };
 
 productoCtr.updateProduct = (req, res) => {
@@ -91,41 +116,53 @@ productoCtr.updateProduct = (req, res) => {
   const { NombreProducto, Precio, Stock, Fecha_Entrada, Estado, IdCategoria } =
     req.body;
   const request = new sql.Request();
-  request
-    .input("idProduct", sql.Int, IdProduct)
-    .input("nombreProducto", sql.VarChar, NombreProducto)
-    .input("precio", sql.Money, Precio)
-    .input("stock", sql.Int, Stock)
-    .input("fecha_Entrada", sql.Date, Fecha_Entrada)
-    .input("estado", sql.VarChar, Estado)
-    .input("idCategoria", sql.Int, IdCategoria)
-    .query(queries[0].updateProduct)
-    .then((response) => {
-      res.status(200).json({ response });
-    })
-    .catch((err) => {
-      res.status(500).json({ err });
-    });
-};
+  const error = validationResult(req);
 
-productoCtr.updateProductImage = (req, res) => {
-  const { IdProduct } = req.params;
-  //const url = (req.file) ? saveUrlImage(req.file.filename) : null;
-  const params = getParams(req);
-  s3.upload(params, (err, data) => {
-    if (err) return res.status(500).json({ err: err });
-    const url = data.Location;
-    const request = new sql.Request();
+  if (!error.isEmpty()) {
+    res.status(500).json({ error: error.errors[0].msg });
+  } else {
     request
-      .input("imagenProducto", sql.VarChar, url)
-      .query(`${queries[0].updateProductImage} = ${IdProduct}`)
+      .input("idProduct", sql.Int, IdProduct)
+      .input("nombreProducto", sql.VarChar, NombreProducto)
+      .input("precio", sql.Money, Precio)
+      .input("stock", sql.Int, Stock)
+      .input("fecha_Entrada", sql.Date, Fecha_Entrada)
+      .input("estado", sql.VarChar, Estado)
+      .input("idCategoria", sql.Int, IdCategoria)
+      .query(queries[0].updateProduct)
       .then((response) => {
         res.status(200).json({ response });
       })
       .catch((err) => {
         res.status(500).json({ err });
       });
-  });
+  }
+};
+
+productoCtr.updateProductImage = (req, res) => {
+  const { IdProduct } = req.params;
+  //const url = (req.file) ? saveUrlImage(req.file.filename) : null;
+  const error = validationResult(req);
+
+  if (!error.isEmpty()) {
+    res.status(500).json({ error: error.errors[0].msg });
+  } else {
+    const params = getParams(req);
+    s3.upload(params, (err, data) => {
+      if (err) return res.status(500).json({ err: err });
+      const url = data.Location;
+      const request = new sql.Request();
+      request
+        .input("imagenProducto", sql.VarChar, url)
+        .query(`${queries[0].updateProductImage} = ${IdProduct}`)
+        .then((response) => {
+          res.status(200).json({ response });
+        })
+        .catch((err) => {
+          res.status(500).json({ err });
+        });
+    });
+  }
 };
 
 module.exports = productoCtr;

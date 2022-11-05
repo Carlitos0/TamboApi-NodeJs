@@ -8,16 +8,18 @@ const {
   updateCategoria,
   searchByName,
 } = require("../controller/categoria.controller");
+const { idCategoriaValidator, nameCategoriaValidator, bodyCategoriaValidator } = require("../validation/routes.test.");
 
 router.get("/", allCategorias);
 
-router.get("/:idCategoria", categoriaById);
-router.get("/byName/:data", searchByName)
+router.get("/:idCategoria", idCategoriaValidator, categoriaById);
 
-router.post("/addCategoria", addCategoria);
+router.get("/byName/:data", nameCategoriaValidator ,searchByName)
 
-router.delete("/:idCategoria", deleteCategoria);
+router.post("/addCategoria", bodyCategoriaValidator ,addCategoria);
 
-router.patch("/:idCategoria", updateCategoria)
+router.delete("/deleteCategoria/:idCategoria", idCategoriaValidator, deleteCategoria);
+
+router.patch("/updateCategoria/:idCategoria", idCategoriaValidator.concat(bodyCategoriaValidator) ,updateCategoria)
 
 module.exports = router;
