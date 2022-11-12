@@ -1,10 +1,10 @@
 const sql = require("mssql");
 
 const sqlConfig = {
-    user: process.env.DB_USER,
-    password: process.env.DB_PWD,
-    database: process.env.DB_NAME,
-    server: 'localhost',
+    user: process.env.DB_USER || "CloudSAe0b806c8",
+    password: process.env.DB_PWD || "BlueDemon978",
+    database: process.env.DB_NAME || "BD_PRODUCTOTAMBO",
+    server: process.env.DB_SERVER || 'dark2004.database.windows.net',
     pool: {
       max: 10,
       min: 0,
@@ -12,7 +12,7 @@ const sqlConfig = {
     },
     options: {
       encrypt: true, // for azure
-      trustServerCertificate: true // change to true for local dev / self-signed certs
+      //trustServerCertificate: true // change to true for local dev / self-signed certs
     }
 }
 

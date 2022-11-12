@@ -1,13 +1,15 @@
 const express = require("express");
 const morgan = require("morgan");
 const error404 = require("./validation/NotFound");
+const cors = require("cors")
 
 const app = express();
 
 // Settings
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 4000);
 
 //Middlewares 
+app.use(cors())
 app.use(express.json())
 app.use(morgan("dev"));
 app.use(express.urlencoded({extended: true}));
