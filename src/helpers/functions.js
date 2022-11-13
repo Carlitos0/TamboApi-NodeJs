@@ -8,7 +8,7 @@ functions.queries = [
     {
         updateProduct: "UPDATE PRODUCTOS SET NombreProducto = @nombreProducto, Precio = @precio, Stock = @stock, Fecha_Entrada = @fecha_Entrada, Estado = @estado, IdCategoria = @idCategoria WHERE IdProducto = @idProduct",
         updateProductImage: "UPDATE PRODUCTOS SET ImagenProducto = @imagenProducto WHERE IdProducto",
-        changeState: "UPDATE PRODUCTOS SET Estado = 'NO DISPONIBLE' WHERE IdProducto = @idProduct",
+        changeState: "UPDATE PRODUCTOS SET Estado = @Estado WHERE IdProducto = @idProduct",
         addProduct: `INSERT INTO PRODUCTOS VALUES(@NombreProducto,@Precio,@Stock,@Fecha_Entrada,@Estado,@IdCategoria,@ImgUrl)`,
         productoByName: "SELECT * FROM PRODUCTOS WHERE NombreProducto LIKE '%'+@productName+'%'",
         productoById: "SELECT * FROM PRODUCTOS WHERE IdProducto = @idProduct",

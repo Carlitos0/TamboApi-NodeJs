@@ -7,7 +7,7 @@ const productoCtr = {};
 productoCtr.getProducts = (req, res) => {
   const request = new sql.Request();
   request
-    .query("SELECT * FROM PRODUCTOS WHERE Estado = 'DISPONIBLE'")
+    .query("SELECT * FROM PRODUCTOS")
     .then((rs) => {
       res.status(200).json(rs.recordsets[0]);
     });
@@ -91,16 +91,28 @@ productoCtr.addProduct = (req, res) => {
   }
 };
 
-productoCtr.changeProductStatus = (req, res) => {
+productoCtr.changeProductStatus = async(req, res) => {
   const { IdProduct } = req.params;
   const request = new sql.Request();
+  const changeP = new sql.Request();
   const error = validationResult(req);
 
   if (!error.isEmpty()) {
     res.status(500).json({ error: error.errors[0].msg });
   } else {
+    var estadoP = undefined;
+    const resP = await changeP.input("idProduct", sql.Int, IdProduct)
+    .query(queries[0].productoById)
+
+    if(resP.recordsets[0][0].Estado == "NO DISPONIBLE"){
+      estadoP = "DISPONIBLE";
+    } else {
+      estadoP = "NO DISPONIBLE";
+    }
+
     request
       .input("idProduct", sql.Int, IdProduct)
+      .input("Estado", sql.VarChar, estadoP)
       .query(queries[0].changeState)
       .then((response) => {
         res.status(200).json({ response });
