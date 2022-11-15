@@ -100,7 +100,7 @@ productoCtr.changeProductStatus = async(req, res) => {
   if (!error.isEmpty()) {
     res.status(500).json({ error: error.errors[0].msg });
   } else {
-    var estadoP = undefined;
+    let estadoP = undefined;
     const resP = await changeP.input("idProduct", sql.Int, IdProduct)
     .query(queries[0].productoById)
 

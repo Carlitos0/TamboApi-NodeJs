@@ -19,8 +19,10 @@ const sqlConfig = {
 const conectar = async function (){
     try {
         await sql.connect(sqlConfig);
-        console.log(`Connected to Db ${sqlConfig.database}`);
+        console.log(`Connected to Db ${sqlConfig.database}`); 
     } catch (error) {
         console.log(error);
     }
 }();
+
+module.exports = { sql, sqlConfig };
