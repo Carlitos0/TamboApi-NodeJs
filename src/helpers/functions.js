@@ -6,10 +6,10 @@ functions.saveUrlImage = function(filename){
 
 functions.queries = [
     {
-        updateProduct: "UPDATE PRODUCTOS SET NombreProducto = @nombreProducto, Precio = @precio, Stock = @stock, Fecha_Entrada = @fecha_Entrada, Estado = @estado, IdCategoria = @idCategoria WHERE IdProducto = @idProduct",
+        updateProduct: "UPDATE PRODUCTOS SET NombreProducto = @nombreProducto, descripcion = @Descripcion, IdCategoria = @idCategoria WHERE IdProducto = @idProduct",
         updateProductImage: "UPDATE PRODUCTOS SET ImagenProducto = @imagenProducto WHERE IdProducto",
-        changeState: "UPDATE PRODUCTOS SET Estado = @Estado WHERE IdProducto = @idProduct",
-        addProduct: `INSERT INTO PRODUCTOS VALUES(@NombreProducto,@Precio,@Stock,@Fecha_Entrada,@Estado,@IdCategoria,@ImgUrl)`,
+        //changeState: "UPDATE PRODUCTOS SET Estado = @Estado WHERE IdProducto = @idProduct",
+        addProduct: `INSERT INTO PRODUCTOS VALUES(@NombreProducto,@Descripcion,@IdCategoria,@ImgUrl)`,
         productoByName: "SELECT * FROM PRODUCTOS WHERE NombreProducto LIKE '%'+@productName+'%'",
         productoById: "SELECT * FROM PRODUCTOS WHERE IdProducto = @idProduct",
         updateProveedor : "UPDATE PROVEEDORES SET NombreProveedor = @NombreProveedor, Direccion= @Direccion, Telefono = @Telefono,Email = @Email, Estado = @Estado WHERE IdProveedor = @idProveedor",
@@ -29,8 +29,8 @@ functions.queries = [
         addFactura: "INSERT INTO FACTURAS VALUES (@Subtotal, @Igv, @TotalFactura, @FechaEmision)",
         updateFactura: "UPDATE FACTURAS SET Subtotal = @Subtotal, Igv = @Igv, TotalFactura = @TotalFactura, FechaEmision = @FechaEmision WHERE IdFactura = @IdFactura",
         detPedProById: "SELECT * FROM DT_PEDIDO_PRODUCTOS WHERE Id = @IdDetPedPro",
-        addDetPedPro: "INSERT INTO DT_PEDIDO_PRODUCTOS VALUES (@IdPedido, @IdProducto)",
-        updateDtPedido: "UPDATE DT_PEDIDO_PRODUCTOS SET IdPedido = @IdPedido, IdProducto = @IdProducto WHERE Id = @IdDetPedPro",
+        addDetPedPro: "INSERT INTO DT_PEDIDO_PRODUCTOS (IdPedido,IdProducto,CantidadPedido,montoPedido,Fecha_Produccion,Fecha_Vencimiento) VALUES (@IdPedido, @IdProducto, @CantidadPedido, @montoPedido, @Fecha_Produccion, @Fecha_Vencimiento)",
+        updateDtPedido: "UPDATE DT_PEDIDO_PRODUCTOS SET IdPedido = @IdPedido, IdProducto = @IdProducto WHERE Id = @IdDetPedPro"
         //selectDtPedido: "SELECT D.Id, PE.IdPedido, P.NombreProducto FROM DT_PEDIDO_PRODUCTOS D INNER JOIN PRODUCTOS P ON D.IdProducto = P.IdProducto INNER JOIN PEDIDOS PE ON D.IdPedido = PE.IdPedido",
         
     }

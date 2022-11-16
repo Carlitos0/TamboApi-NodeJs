@@ -40,7 +40,7 @@ detPedPro.detPedProById = async (req, res) => {
 
 detPedPro.addDetPedPro = async (req, res) => {
     const request = new sql.Request();
-    const {IdPedido, IdProducto} = req.body;
+    const {IdPedido, IdProducto, CantidadPedido, montoPedido, Fecha_Produccion, Fecha_Vencimiento} = req.body;
 
     const error = validationResult(req)
 
@@ -51,6 +51,10 @@ detPedPro.addDetPedPro = async (req, res) => {
             const rs = await request
             .input("IdPedido", sql.Int, IdPedido)
             .input("IdProducto", sql.Int, IdProducto)
+            .input("CantidadPedido", sql.Int, CantidadPedido)
+            .input("montoPedido", sql.Money, montoPedido)
+            .input("Fecha_Produccion", sql.Date, Fecha_Produccion)
+            .input("Fecha_Vencimiento", sql.Date, Fecha_Vencimiento)
             .query(queries[0].addDetPedPro)
 
             res.status(200).json(rs)
@@ -64,7 +68,7 @@ detPedPro.addDetPedPro = async (req, res) => {
 detPedPro.updateDetPedPro = async (req, res) => {
     const request = new sql.Request();
     const {idDetPedPro} = req.params;
-    const {IdPedido, IdProducto} = req.body;
+    const {IdPedido, IdProducto, CantidadPedido, montoPedido, Fecha_Produccion, Fecha_Vencimiento, IdFactura} = req.body;
 
     const error = validationResult(req)
 
@@ -76,7 +80,12 @@ detPedPro.updateDetPedPro = async (req, res) => {
             .input("IdDetPedPro", sql.Int, idDetPedPro)
             .input("IdPedido", sql.Int, IdPedido)
             .input("IdProducto", sql.Int, IdProducto)
-            .query("UPDATE DT_PEDIDO_PRODUCTOS SET IdPedido = @IdPedido, IdProducto = @IdProducto WHERE Id = @IdDetPedPro")
+            .input("CantidadPedido", sql.Int, CantidadPedido)
+            .input("montoPedido", sql.Money, montoPedido)
+            .input("Fecha_Produccion", sql.Date, Fecha_Produccion)
+            .input("Fecha_Vencimiento", sql.Date, Fecha_Vencimiento)
+            .input("IdFactura", sql.Int, IdFactura)
+            .query("UPDATE DT_PEDIDO_PRODUCTOS SET IdPedido = @IdPedido, IdProducto = @IdProducto, CantidadPedido = @CantidadPedido, montoPedido = @montoPedido, Fecha_Produccion = @Fecha_Produccion, Fecha_Vencimiento = @Fecha_Vencimiento, IdFactura = @IdFactura WHERE Id = @IdDetPedPro")
 
             res.status(200).json(rs)
         } catch (error) {

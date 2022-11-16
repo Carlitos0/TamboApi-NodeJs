@@ -26,5 +26,4 @@ app.use(error404);
 //
 app.use("/public", express.static(`${__dirname}/storage/imgs`));
 
-
 module.exports = app;

@@ -56,7 +56,7 @@ productoCtr.productByName = (req, res) => {
 };
 
 productoCtr.addProduct = (req, res) => {
-  const { NombreProducto, Precio, Stock, Fecha_Entrada, Estado, IdCategoria } =
+  const { NombreProducto, Descripcion, IdCategoria } =
     req.body;
   //const url = (req.file) ? saveUrlImage(filename): null;
   const params = getParams(req);
@@ -72,10 +72,7 @@ productoCtr.addProduct = (req, res) => {
       const request = new sql.Request();
       request
         .input("NombreProducto", sql.VarChar, NombreProducto)
-        .input("Precio", sql.Money, Precio)
-        .input("Stock", sql.Int, Stock)
-        .input("Fecha_Entrada", sql.Date, Fecha_Entrada)
-        .input("Estado", sql.VarChar, Estado)
+        .input("Descripcion", sql.VarChar, Descripcion)
         .input("IdCategoria", sql.Int, IdCategoria)
         .input("ImgUrl", sql.VarChar, url)
         .query(queries[0].addProduct)
@@ -90,7 +87,7 @@ productoCtr.addProduct = (req, res) => {
     });
   }
 };
-
+/*
 productoCtr.changeProductStatus = async(req, res) => {
   const { IdProduct } = req.params;
   const request = new sql.Request();
@@ -122,10 +119,10 @@ productoCtr.changeProductStatus = async(req, res) => {
       });
   }
 };
-
+*/
 productoCtr.updateProduct = (req, res) => {
   const { IdProduct } = req.params;
-  const { NombreProducto, Precio, Stock, Fecha_Entrada, Estado, IdCategoria } =
+  const { NombreProducto, Descripcion, IdCategoria } =
     req.body;
   const request = new sql.Request();
   const error = validationResult(req);
@@ -136,10 +133,7 @@ productoCtr.updateProduct = (req, res) => {
     request
       .input("idProduct", sql.Int, IdProduct)
       .input("nombreProducto", sql.VarChar, NombreProducto)
-      .input("precio", sql.Money, Precio)
-      .input("stock", sql.Int, Stock)
-      .input("fecha_Entrada", sql.Date, Fecha_Entrada)
-      .input("estado", sql.VarChar, Estado)
+      .input("Descripcion", sql.VarChar, Descripcion)
       .input("idCategoria", sql.Int, IdCategoria)
       .query(queries[0].updateProduct)
       .then((response) => {

@@ -5,7 +5,6 @@ const router = require("express").Router();
 const {
   getProducts,
   addProduct,
-  changeProductStatus,
   updateProduct,
   productById,
   productByName,
@@ -21,7 +20,7 @@ router.get("/productByName/:NameProduct", nameProductoValidator, productByName);
 
 router.post("/addProduct", bodyProductoValidator ,upload.single("ProductImage"), addProduct);
 
-router.delete("/changeProductStatus/:IdProduct", idProductoValidator ,changeProductStatus);
+//router.delete("/changeProductStatus/:IdProduct", idProductoValidator ,changeProductStatus);
 
 router.put("/updateProduct/:IdProduct", idProductoValidator.concat(bodyProductoValidator) ,updateProduct);
 
