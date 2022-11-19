@@ -26,13 +26,9 @@ const validatorRoutes = {
     ],
 
     bodyProductoValidator: [
-        //body("NombreProducto").isString().withMessage("El nombre del producto debe ser un texto").notEmpty().withMessage("El nombre del producto no puede estar vacio").isLength({max: 100}).withMessage("El nombre de producto no puede tener mas de 100 caracteres"),
+        /*body("NombreProducto").notEmpty().withMessage("El nombre del producto no puede estar vacio").isString().withMessage("El nombre del producto debe ser un texto").isLength({max: 100}).withMessage("El nombre de producto no puede tener mas de 100 caracteres"),
 
-        //body("Precio").isNumeric().withMessage("El precio del producto debe ser un valor numérico").notEmpty().withMessage("El precio del producto no puede estar vacio"),
-
-        //body("Stock").isInt().withMessage("El stock del producto debe ser un valor entero").notEmpty().withMessage("El stock del producto no puede estar vacio"),
-
-        //body("Fecha_Entrada").notEmpty().withMessage("La fecha del producto no puede estar vacia").isDate().withMessage("El valor ingresado debe ser una fecha"),
+        body("descripcion").notEmpty().withMessage("La descripcion del producto no puede estar vacio").isString().withMessage("La descripcion del producto debe ser un texto"),
 
         /*body("Estado").notEmpty().withMessage("El estado de producto no puede estar vacio").custom((value, {req}) => {
             if (value.trim() !== "DISPONIBLE" && value.trim() !== "NO DISPONIBLE"){
@@ -40,8 +36,8 @@ const validatorRoutes = {
             }
             return true;
         }),*/
-
-        //body("IdCategoria").isInt().withMessage("El id de la categoria debe ser un entero").notEmpty().withMessage("El id de la categoria no puede estar vacio")
+/*
+        body("IdCategoria").notEmpty().withMessage("El id de la categoria no puede estar vacio").isInt().withMessage("El id de la categoria debe ser un entero")*/
     ],
 
     //Validación del Detalle Pedido Producto

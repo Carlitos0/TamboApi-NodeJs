@@ -56,7 +56,7 @@ productoCtr.productByName = (req, res) => {
 };
 
 productoCtr.addProduct = (req, res) => {
-  const { NombreProducto, Descripcion, IdCategoria } =
+  const { NombreProducto= "", descripcion = "", IdCategoria } =
     req.body;
   //const url = (req.file) ? saveUrlImage(filename): null;
   const params = getParams(req);
@@ -70,9 +70,10 @@ productoCtr.addProduct = (req, res) => {
       if (err) return res.status(500).json({ err: err });
       const url = data.Location;
       const request = new sql.Request();
+      console.log(url);
       request
         .input("NombreProducto", sql.VarChar, NombreProducto)
-        .input("Descripcion", sql.VarChar, Descripcion)
+        .input("Descripcion", sql.VarChar, descripcion)
         .input("IdCategoria", sql.Int, IdCategoria)
         .input("ImgUrl", sql.VarChar, url)
         .query(queries[0].addProduct)
@@ -122,7 +123,7 @@ productoCtr.changeProductStatus = async(req, res) => {
 */
 productoCtr.updateProduct = (req, res) => {
   const { IdProduct } = req.params;
-  const { NombreProducto, Descripcion, IdCategoria } =
+  const { NombreProducto, descripcion, IdCategoria } =
     req.body;
   const request = new sql.Request();
   const error = validationResult(req);
@@ -133,7 +134,7 @@ productoCtr.updateProduct = (req, res) => {
     request
       .input("idProduct", sql.Int, IdProduct)
       .input("nombreProducto", sql.VarChar, NombreProducto)
-      .input("Descripcion", sql.VarChar, Descripcion)
+      .input("Descripcion", sql.VarChar, descripcion)
       .input("idCategoria", sql.Int, IdCategoria)
       .query(queries[0].updateProduct)
       .then((response) => {
